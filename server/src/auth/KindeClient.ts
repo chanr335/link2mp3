@@ -19,7 +19,6 @@ export const kindeClient = createKindeServerClient(
 );
 
 let store: Record<string, unknown> = {};
-
 export const sessionManager: SessionManager = {
   async getSessionItem(key: string) {
     return store[key];
@@ -36,13 +35,16 @@ export const sessionManager: SessionManager = {
 };
 
 export async function getUser(req: Request, res: Response, next: NextFunction) {
-  const isAuthenticated = await kindeClient.isAuthenticated(sessionManager); // Boolean: true or false
-  if (isAuthenticated) {
-    console.log("Passed");
+  try {
+    const isAuthenticated = await kindeClient.isAuthenticated(sessionManager); // Boolean: true or false
+    if (!isAuthenticated) {
+      return res.status(401).json({ error: "Not Authorized" });
+    }
     const user = await kindeClient.getUserProfile(sessionManager);
+    console.log(user);
     next();
-  } else {
-    // Need to implement, e.g: redirect user to sign in, etc..
-    console.log("No Auth");
+  } catch (e) {
+    console.error(e);
+    return res.status(401).json({ error: "Not Authorized" });
   }
 }

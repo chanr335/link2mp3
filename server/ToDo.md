@@ -9,8 +9,9 @@
 
 # Backend
 
-- [ ] create routes for authentication (Express)
-- [ ] connect KindeAuth for backend
+- [x] create routes for authentication (Express)
+- [x] connect KindeAuth for backend
+- [ ] validate user data
 - [ ] setup connection for database
 
 # Frontend

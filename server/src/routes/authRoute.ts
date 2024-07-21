@@ -14,6 +14,11 @@ authRouter.get("/register", async (req: Request, res: Response) => {
   return res.redirect(registerUrl.toString());
 });
 
+authRouter.get("/logout", async (req: Request, res: Response) => {
+  const logoutUrl = await kindeClient.logout(sessionManager);
+  return res.redirect(logoutUrl.toString());
+});
+
 authRouter.get("/callback", async (req: Request, res: Response) => {
   const url = new URL(`${req.protocol}://${req.get("host")}${req.url}`);
   await kindeClient.handleRedirectToApp(sessionManager, url);
