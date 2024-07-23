@@ -4,7 +4,8 @@ import {
   GrantType,
 } from "@kinde-oss/kinde-typescript-sdk";
 import "dotenv/config";
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
+import { Request } from "../types";
 
 // Client for authorization code flow
 export const kindeClient = createKindeServerClient(
@@ -41,6 +42,7 @@ export async function getUser(req: Request, res: Response, next: NextFunction) {
       return res.status(401).json({ error: "Not Authorized" });
     }
     const user = await kindeClient.getUserProfile(sessionManager);
+    req.user = user;
     console.log(user);
     next();
   } catch (e) {

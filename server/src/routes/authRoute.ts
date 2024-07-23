@@ -26,6 +26,7 @@ authRouter.get("/callback", async (req: Request, res: Response) => {
 });
 
 authRouter.get("/profile", getUser, async (req: Request, res: Response) => {
+  // const user = await kindeClient.getUserProfile(sessionManager);
   const user = req.user;
   res.json({ user });
 });
